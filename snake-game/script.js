@@ -34,17 +34,25 @@ function drawFood (){
 
 //quando um evento acontece, detecta e chama uma função
 document.addEventListener('keydown', update);
+if (window.PointerEvent) {
+    document.addEventListener('pointerdown', update1);
+}else {
+    document.addEventListener('touchstart', update3);
+}
 
 function update(event){
-    if(event.keyCode == 32)estadoPosicao++
+    if((event.keyCode == 32) || (event.touches != 0) || (event.target != 0)){ 
+        estadoPosicao++}
     if(estadoPosicao == 1) direction = 'right';
     if(estadoPosicao == 2) direction = 'down';
     if(estadoPosicao == 3) direction = 'left';
     if(estadoPosicao == 4) direction = 'up';
     if(direction == 'up' && estadoPosicao == 4) estadoPosicao = 0;
         
-    console.log(event.keyCode);
-    console.log(estadoPosicao);
+    //console.log(event.keyCode);
+    //console.log(event.touches);
+    //console.log(event.target);
+    //console.log(estadoPosicao);
  /*  
     if(event.keyCode == 37 && direction != 'right') direction = 'left';
     if(event.keyCode == 38 && direction != 'down') direction = 'up';
@@ -52,6 +60,26 @@ function update(event){
     if(event.keyCode == 40 && direction != 'up') direction = 'down';
     console.log(event.keyCode);*/
 }
+
+function update1(event){
+    if(event.target != 0){ 
+        estadoPosicao++}
+    if(estadoPosicao == 1) direction = 'right';
+    if(estadoPosicao == 2) direction = 'down';
+    if(estadoPosicao == 3) direction = 'left';
+    if(estadoPosicao == 4) direction = 'up';
+    if(direction == 'up' && estadoPosicao == 4) estadoPosicao = 0;
+    }
+
+function update3(event){
+    if(event.touches != 0){ 
+        estadoPosicao++}
+    if(estadoPosicao == 1) direction = 'right';
+    if(estadoPosicao == 2) direction = 'down';
+    if(estadoPosicao == 3) direction = 'left';
+    if(estadoPosicao == 4) direction = 'up';
+    if(direction == 'up' && estadoPosicao == 4) estadoPosicao = 0;
+    }
 
 function iniciarJogo(){    
 
