@@ -1,6 +1,9 @@
 let canvas = document.getElementById("snake"); //criar elemento que irá rodar o jogo
 let context = canvas.getContext("2d"); //....
 let box = 32;
+let estadoPosicao = 1;
+let contagem = 0;
+let digitalElement = document.querySelector('.resultado');
 let snake = []; //criar cobrinha como lista, já que ela vai ser uma série de coordenadas, que quando pintadas, criam os quadradinhos
 snake[0] ={
     x: 8 * box,
@@ -33,10 +36,21 @@ function drawFood (){
 document.addEventListener('keydown', update);
 
 function update(event){
+    if(event.keyCode == 32)estadoPosicao++
+    if(estadoPosicao == 1) direction = 'right';
+    if(estadoPosicao == 2) direction = 'down';
+    if(estadoPosicao == 3) direction = 'left';
+    if(estadoPosicao == 4) direction = 'up';
+    if(direction == 'up' && estadoPosicao == 4) estadoPosicao = 0;
+        
+    console.log(event.keyCode);
+    console.log(estadoPosicao);
+ /*  
     if(event.keyCode == 37 && direction != 'right') direction = 'left';
     if(event.keyCode == 38 && direction != 'down') direction = 'up';
     if(event.keyCode == 39 && direction != 'left') direction = 'right';
     if(event.keyCode == 40 && direction != 'up') direction = 'down';
+    console.log(event.keyCode);*/
 }
 
 function iniciarJogo(){    
@@ -49,7 +63,7 @@ function iniciarJogo(){
     for(i = 1; i < snake.length; i++){
         if(snake[0].x == snake[i].x && snake[0].y == snake[i].y){
             clearInterval(jogo);
-            alert('Game Over :(');
+            alert(`Game Over :( .. Seu placar foi ${contagem}`);
         }
     }
 
@@ -67,9 +81,12 @@ function iniciarJogo(){
 
     if(snakeX != food.x || snakeY != food.y){
         snake.pop(); //pop tira o último elemento da lista
+        
     }else{
         food.x = Math.floor(Math.random() * 15 +1) * box;
         food.y = Math.floor(Math.random() * 15 +1) * box;
+        contagem++;
+        
     }
     
     let newHead ={
@@ -78,6 +95,7 @@ function iniciarJogo(){
     }
 
     snake.unshift(newHead); //método unshift adiciona como primeiro quadradinho da cobrinha
+    digitalElement.innerHTML = `${contagem}`;
 }
 
-let jogo = setInterval(iniciarJogo, 100);
+let jogo = setInterval(iniciarJogo, 220);
